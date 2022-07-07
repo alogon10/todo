@@ -25,19 +25,19 @@ class TodoController extends Controller
         DB::insert('insert into tasks (content) values (:content)', $item);
         return redirect('/');
     }
-    // public function update(Request $request)
-    // {
-        // $item = [
-            // 'content' => $request->updatetext,
-            // 'id' => DB::select('select id from tasks where id=:id')
-        // ];
-        // DB::update('update tasks set content=:content where id=:id', $item);
-        // return redirect('/');
-    // }
-    // public function remove(Request $request)
-    // {
-        // $param = ['id' => $request->id];
-        // DB::delete('delete from authors where id =:id', $param);
-        // return redirect('/');
-    // }
+    public function update(Request $request)
+    {
+        $item = [
+            'content' => $request->updatetext,
+            'id' => DB::select('select id from tasks where id=:id')
+        ];
+        DB::update('update tasks set content=:content where id=:id', $item);
+        return redirect('/');
+    }
+    public function remove(Request $request)
+    {
+        $param = ['id' => $request->id];
+        DB::delete('delete from authors where id =:id', $param);
+        return redirect('/');
+    }
 }
