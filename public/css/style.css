@@ -5,8 +5,16 @@
 h1{
   margin-top: -20px;
   font-size: 24px;
+  text-align: left;
+}
+.title{
+
+  
+  text-align: left;
 }
 body {
+  align-items: center;
+  text-align: center;
   background-color: rgb(75,0,130);
 }
 .content{
@@ -14,7 +22,7 @@ body {
   display: inline-block;
   padding:80px;
   border-radius: 10px;
-  margin: 40vh 10vw;
+  margin: 40vh auto;
 }
 .button{
   color: rgb(255, 0, 191);
@@ -23,7 +31,7 @@ body {
   width: 60px;
 }
 .input{
-  width: 40vw;
+  width: 70%;
   border-color: rgb(197, 197, 197);
   border-radius: 5px;
 }

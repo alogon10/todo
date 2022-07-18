@@ -5,39 +5,48 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Test;
+use App\Models\Task;
+use App\Models\Tag;
+use App\Models\User;
+use App\Http\Requests\TodoRequest;
 
 class TodoController extends Controller
 {
     public function index()
     {
-        $items = DB::select('select * from tasks');
-        return view('index',['items' => $items]);
+        $tag = Tag::all();
+        $items = Task::all();
+        return view('index',['items' => $items,$tag]);
     }
-    public function create(Request $request)
+// create method
+    public function create(TodoRequest $request)
     {   
-        $validate_rule = [
-            'content' =>'required|max:20',
-        ];
         $item = [
             'content' => $request->content,
+            'tag_id' => $request->tag,
+            'user_id' =>$request->user,
         ];
-        $this->validate($request,$validate_rule);
-        DB::insert('insert into tasks (content) values (:content)', $item);
+        
+        Task::create($item);
         return redirect('/');
     }
+// update method
     public function update(Request $request)
     {
+        $form = $request->all();
+        unset($form['_token']);
         $item = [
             'content' => $request->updatetext,
-            'id' => DB::select('select id from tasks where id=:id')
         ];
-        DB::update('update tasks set content=:content where id=:id', $item);
+        $items =Task::all();
+        Task::where('id',$request->id)->update($item);
         return redirect('/');
     }
+// remove method
     public function remove(Request $request)
     {
-        $param = ['id' => $request->id];
-        DB::delete('delete from authors where id =:id', $param);
+
+        Task::find($request->id)->delete();
         return redirect('/');
     }
 }
