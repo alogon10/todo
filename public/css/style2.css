@@ -15,10 +15,10 @@
   border-radius: 5px;
   padding:3px 5px;
 }
-.find {
+.back {
   display: inline-block;
-  color: rgba(209, 209, 0, 0.747);
-  border: solid 3px rgba(209, 209, 0, 0.747);
+  color: gray;
+  border: solid 3px gray;
   border-radius: 5px;
   padding: 3px 5px;
   text-decoration: none;
@@ -40,9 +40,10 @@ body {
 .content{
   background-color: rgb(255,255,255);
   display: inline-block;
-  padding:80px;
+  padding:40px;
   border-radius: 10px;
   margin: 40vh auto;
+  width:70vw;
 }
 .button{
   color: rgb(255, 0, 191);

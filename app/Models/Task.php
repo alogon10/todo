@@ -10,7 +10,8 @@ class Task extends Model
     use HasFactory;
     protected $fillable = [
         'content',
-        'tag',
+        'tag_id',
+        'user_id',
     ];
     protected $guarded = array('id');
 

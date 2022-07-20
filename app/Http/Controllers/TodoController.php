@@ -14,9 +14,9 @@ class TodoController extends Controller
 {
     public function index()
     {
-        $tag = Tag::all();
+        $tags = Tag::all();
         $items = Task::all();
-        return view('index',['items' => $items,$tag]);
+        return view('index',['items' => $items,'tags' => $tags]);
     }
 // create method
     public function create(TodoRequest $request)
@@ -26,7 +26,7 @@ class TodoController extends Controller
             'tag_id' => $request->tag,
             'user_id' =>$request->user,
         ];
-        
+        // return var_dump($item); 配列の中身を表示させる
         Task::create($item);
         return redirect('/');
     }
@@ -48,5 +48,13 @@ class TodoController extends Controller
 
         Task::find($request->id)->delete();
         return redirect('/');
+    }
+// search method
+    public function search(Request $request)
+    {
+        $tag = Tag::where($request->tag)->get();
+        $items = Task::where($request->content)->get();
+        // return var_dump($items); 配列の中身を表示させる
+        return view('find',[$items,$tag]);
     }
 }

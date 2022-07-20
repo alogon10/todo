@@ -5,20 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{asset('css/reset.css')}}">
-  <link rel="stylesheet" href="{{asset('css/style.css')}}">
+  <link rel="stylesheet" href="{{asset('css/style2.css')}}">
   <title>COACHTECH</title>
 </head>
 <body>
   <div class="content">
     <div class="title">
-      <h1>Todo  List</h1>
-      @if (count($errors) > 0)
-      <ul>
-      @foreach ($errors->all() as $error)
-        <li>{{$error}}</li>
-      @endforeach
-      </ul>
-      @endif
+      <h1>タスク検索</h1>
       <div class="login">
       <p>「{{ Auth::user()->name }}」でログイン中</p>
         @auth
@@ -38,10 +31,10 @@
       </div>
         @endauth
     </div>
-    <div style="text-align:left;"><a href="/todo/find" class="find">タスク検索</a></div>
-  <form action="/" method="POST">
+
+  <form action="/todo/search" method="POST">
     @csrf
-    <input class="input" type="text" name="content" >
+    <input class="input" type="text" name="input" >
       <select name="tag" id="">
             <option value="家事">家事</option>
             <option value="勉強">勉強</option>
@@ -49,7 +42,7 @@
             <option value="食事">食事</option>
             <option value="移動">移動</option>
       </select>
-    <input class="button" type="submit" value="追加" >
+    <input class="button" type="submit" value="検索" >
 <!-- ユーザーIDを送信 -->
     <input type="hidden" name="user" value="54">
   </form>
@@ -61,6 +54,7 @@
       <th>更新</th>
       <th>削除</th>
     </tr>
+@if (isset($items))
 @foreach ($items as $item)
     <tr>
       <td>
@@ -73,11 +67,9 @@
         </td>
         <td>
           <select name="tag">
-            @foreach ($tags as $tag)
-            <option value={{$tag->name}}>
-              {{$tag->name}}
+            <option value={{$item->tag}}>
+              {{$item->tag}}
             </option>
-            @endforeach
           </select>
         </td>
         <td>
@@ -94,7 +86,9 @@
       </td>
     </tr>
 @endforeach
+@endif
   </table>
+  <div style="text-align:left;"><a href="/" class="back">戻る</a></div>
 </div>
 </body>
 
