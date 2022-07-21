@@ -37,6 +37,7 @@ class TodoController extends Controller
         unset($form['_token']);
         $item = [
             'content' => $request->updatetext,
+            'tag_id' => $request->tag,
         ];
         $items =Task::all();
         Task::where('id',$request->id)->update($item);
@@ -52,9 +53,9 @@ class TodoController extends Controller
 // search method
     public function search(Request $request)
     {
-        $tag = Tag::where($request->tag)->get();
-        $items = Task::where($request->content)->get();
-        // return var_dump($items); 配列の中身を表示させる
-        return view('find',[$items,$tag]);
+        $tags = Task::where('tag_id',$request->tag)->get();
+        $items = Task::where('content','LIKE BINARY',"%{$request->input}%")->get();
+        $all = Task::all();
+        return view('find',['items' => $items,'tags' => $tags,'all' => $all]);
     }
 }

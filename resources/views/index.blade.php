@@ -43,15 +43,15 @@
     @csrf
     <input class="input" type="text" name="content" >
       <select name="tag" id="">
-            <option value="家事">家事</option>
-            <option value="勉強">勉強</option>
-            <option value="運動">運動</option>
-            <option value="食事">食事</option>
-            <option value="移動">移動</option>
+            <option value="1">家事</option>
+            <option value="2">勉強</option>
+            <option value="3">運動</option>
+            <option value="4">食事</option>
+            <option value="5">移動</option>
       </select>
     <input class="button" type="submit" value="追加" >
 <!-- ユーザーIDを送信 -->
-    <input type="hidden" name="user" value="54">
+    <input type="hidden" name="user" value="{{ Auth::user()->id }}">
   </form>
   <table>
     <tr>
@@ -66,25 +66,26 @@
       <td>
         {{$item->created_at}}
       </td>
-      <form action="/todo/update" method="POST">
+    <form action="/todo/update" method="POST">
         @csrf
-        <td>
-          <input class="textbox" name="updatetext" type="text" value={{$item->content}}>
-        </td>
-        <td>
-          <select name="tag">
-            @foreach ($tags as $tag)
-            <option value={{$tag->name}}>
-              {{$tag->name}}
-            </option>
-            @endforeach
-          </select>
-        </td>
-        <td>
+      <td>
+        <input class="textbox" name="updatetext" type="text" value={{$item->content}}>
+      </td>
+      <td>
+        <select name="tag">
+          <option value="" selected hidden>{{$item->getTask()}}</option>
+            <option value="1">家事</option>
+            <option value="2">勉強</option>
+            <option value="3">運動</option>
+            <option value="4">食事</option>
+            <option value="5">移動</option>
+        </select>
+      </td>
+      <td>
         <input class="update" type="submit" value="更新" name="ipdate">
         <input type="hidden" name="id" value={{$item->id}}>
-        </td>
-      </form>
+      </td>
+    </form>
       <td>
       <form action="/todo/delete" method="POST">
         @csrf
@@ -95,6 +96,7 @@
     </tr>
 @endforeach
   </table>
+
 </div>
 </body>
 

@@ -34,17 +34,18 @@
 
   <form action="/todo/search" method="POST">
     @csrf
-    <input class="input" type="text" name="input" >
+    <input class="input" type="text" name="input">
       <select name="tag" id="">
-            <option value="家事">家事</option>
-            <option value="勉強">勉強</option>
-            <option value="運動">運動</option>
-            <option value="食事">食事</option>
-            <option value="移動">移動</option>
+        <option value=""></option>
+        <option value="1">家事</option>
+        <option value="2">勉強</option>
+        <option value="3">運動</option>
+        <option value="4">食事</option>
+        <option value="5">移動</option>
       </select>
     <input class="button" type="submit" value="検索" >
 <!-- ユーザーIDを送信 -->
-    <input type="hidden" name="user" value="54">
+    <input type="hidden" name="user" value="{{ Auth::user()->id }}">
   </form>
   <table>
     <tr>
@@ -54,29 +55,68 @@
       <th>更新</th>
       <th>削除</th>
     </tr>
-@if (isset($items))
+@if(isset($tags))
+@foreach ($tags as $tag)
+    <tr>
+      <td>
+        {{$tag->created_at}}
+      </td>
+    <form action="/todo/update" method="POST">
+        @csrf
+      <td>
+        <input class="textbox" name="updatetext" type="text" value={{$tag->content}}>
+      </td>
+      <td>
+        <select name="tag">
+          <option value="" selected hidden>{{$tag->getTask()}}</option>
+            <option value="1">家事</option>
+            <option value="2">勉強</option>
+            <option value="3">運動</option>
+            <option value="4">食事</option>
+            <option value="5">移動</option>
+        </select>
+      </td>
+      <td>
+        <input class="update" type="submit" value="更新" name="ipdate">
+        <input type="hidden" name="id" value={{$tag->id}}>
+      </td>
+    </form>
+      <td>
+      <form action="/todo/delete" method="POST">
+        @csrf
+        <input class="delete" type="submit" value="削除" name="delete">
+        <input type="hidden" name="id" value={{$tag->id}}>
+      </form>
+      </td>
+    </tr>
+@endforeach
+@endif
+@if(isset($items)&&($items!=$all))
 @foreach ($items as $item)
     <tr>
       <td>
         {{$item->created_at}}
       </td>
-      <form action="/todo/update" method="POST">
+    <form action="/todo/update" method="POST">
         @csrf
-        <td>
-          <input class="textbox" name="updatetext" type="text" value={{$item->content}}>
-        </td>
-        <td>
-          <select name="tag">
-            <option value={{$item->tag}}>
-              {{$item->tag}}
-            </option>
-          </select>
-        </td>
-        <td>
+      <td>
+        <input class="textbox" name="updatetext" type="text" value={{$item->content}}>
+      </td>
+      <td>
+        <select name="tag">
+          <option value="" selected hidden>{{$item->getTask()}}</option>
+            <option value="1">家事</option>
+            <option value="2">勉強</option>
+            <option value="3">運動</option>
+            <option value="4">食事</option>
+            <option value="5">移動</option>
+        </select>
+      </td>
+      <td>
         <input class="update" type="submit" value="更新" name="ipdate">
         <input type="hidden" name="id" value={{$item->id}}>
-        </td>
-      </form>
+      </td>
+    </form>
       <td>
       <form action="/todo/delete" method="POST">
         @csrf
