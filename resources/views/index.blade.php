@@ -42,7 +42,7 @@
   <form action="/" method="POST">
     @csrf
     <input class="input" type="text" name="content" >
-      <select name="tag" id="">
+      <select class="tag" name="tag" id="">
             <option value="1">家事</option>
             <option value="2">勉強</option>
             <option value="3">運動</option>
@@ -62,6 +62,7 @@
       <th>削除</th>
     </tr>
 @foreach ($items as $item)
+@if( ($item->user_id) === (Auth::user()->id) )
     <tr>
       <td>
         {{$item->created_at}}
@@ -72,8 +73,8 @@
         <input class="textbox" name="updatetext" type="text" value={{$item->content}}>
       </td>
       <td>
-        <select name="tag">
-          <option value="" selected hidden>{{$item->getTask()}}</option>
+        <select class="tag" name="tag">
+          <option value="{{$item->tag_id}}" selected hidden>{{$item->getTask()}}</option>
             <option value="1">家事</option>
             <option value="2">勉強</option>
             <option value="3">運動</option>
@@ -94,9 +95,10 @@
       </form>
       </td>
     </tr>
+@else
+@endif
 @endforeach
   </table>
-
 </div>
 </body>
 

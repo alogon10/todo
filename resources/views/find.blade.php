@@ -35,7 +35,7 @@
   <form action="/todo/search" method="POST">
     @csrf
     <input class="input" type="text" name="input">
-      <select name="tag" id="">
+      <select class="tag" name="tag" id="">
         <option value=""></option>
         <option value="1">家事</option>
         <option value="2">勉強</option>
@@ -57,6 +57,7 @@
     </tr>
 @if(isset($tags))
 @foreach ($tags as $tag)
+@if( ($tag->user_id) === (Auth::user()->id) )
     <tr>
       <td>
         {{$tag->created_at}}
@@ -67,7 +68,7 @@
         <input class="textbox" name="updatetext" type="text" value={{$tag->content}}>
       </td>
       <td>
-        <select name="tag">
+        <select class="tag" name="tag">
           <option value="" selected hidden>{{$tag->getTask()}}</option>
             <option value="1">家事</option>
             <option value="2">勉強</option>
@@ -89,10 +90,12 @@
       </form>
       </td>
     </tr>
+@endif
 @endforeach
 @endif
 @if(isset($items)&&($items!=$all))
 @foreach ($items as $item)
+@if( ($item->user_id) === (Auth::user()->id) )
     <tr>
       <td>
         {{$item->created_at}}
@@ -103,7 +106,7 @@
         <input class="textbox" name="updatetext" type="text" value={{$item->content}}>
       </td>
       <td>
-        <select name="tag">
+        <select class="tag" name="tag">
           <option value="" selected hidden>{{$item->getTask()}}</option>
             <option value="1">家事</option>
             <option value="2">勉強</option>
@@ -125,6 +128,7 @@
       </form>
       </td>
     </tr>
+@endif
 @endforeach
 @endif
   </table>

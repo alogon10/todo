@@ -9,6 +9,7 @@ use App\Models\Task;
 use App\Models\Tag;
 use App\Models\User;
 use App\Http\Requests\TodoRequest;
+use App\Http\Requests\UpdateRequest;
 
 class TodoController extends Controller
 {
@@ -31,7 +32,7 @@ class TodoController extends Controller
         return redirect('/');
     }
 // update method
-    public function update(Request $request)
+    public function update(UpdateRequest $request)
     {
         $form = $request->all();
         unset($form['_token']);
